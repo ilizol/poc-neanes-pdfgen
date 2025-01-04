@@ -38,6 +38,11 @@ export class TextMeasurementService {
       const fontSize = Number(fontCss.match(fontSizeRegex)![1]);
       const font = fontMap.get(fontFamily)!;
 
+      //console.log(`[LOG] fontFamily: ${fontFamily}`);
+      //console.log(`[LOG] fontSize: ${fontSize}`);
+      // console.log('[LOG] font: ', font);
+      // console.log('[LOG] font.bbox: ', font.bbox);
+
       return (font.bbox.height / font.unitsPerEm) * fontSize;
     } catch (e) {
       console.error(`[ERR] getFontHeight: ${fontCss}`, e);

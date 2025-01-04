@@ -37,7 +37,8 @@ export class PdfGenerator {
   public async generate(score: Score, pages: Page[]) {
     const pageSetup = score.pageSetup;
     console.time('generate');
-    const doc = new PDFDocument({ size: 'LETTER' });
+    //const doc = new PDFDocument({ size: 'LETTER' });
+    const doc = new PDFDocument({ size: 'A4' });
 
     doc.pipe(fs.createWriteStream('output.pdf')); // write to PDF
 

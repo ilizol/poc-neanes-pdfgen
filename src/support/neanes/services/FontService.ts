@@ -1,9 +1,11 @@
+import metadataAlmouzios from '../assets/Almouzios.metadata.json';
 import metadata from '../assets/neanes.metadata.json';
 import metadataRtl from '../assets/neanesrtl.metadata.json';
 import metadataStathis from '../assets/NeanesStathisSeries.metadata.json';
 import { SbmuflGlyphName } from './NeumeMappingService';
 
 const metadataMap = new Map();
+metadataMap.set('Almouzios', metadataAlmouzios);
 metadataMap.set('Neanes', metadata);
 metadataMap.set('NeanesRTL', metadataRtl);
 metadataMap.set('NeanesStathisSeries', metadataStathis);

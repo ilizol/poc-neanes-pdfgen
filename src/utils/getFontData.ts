@@ -66,7 +66,7 @@ export async function getFontDataLinux(
 
   const { stdout } = await execAsync(cmd, { maxBuffer: 1024 * 1024 * 10 });
 
-  const path = stdout.replace(':file=', '').replace('\n', '');
+  const path = stdout.replace(':file=', '').replace('\n', '').replace('\\', '');
 
   return await fs.readFile(path);
 }
