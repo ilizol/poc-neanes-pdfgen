@@ -1,4 +1,5 @@
 import { create, Font, open } from 'fontkit';
+import { Unit } from '../utils/Unit';
 
 const fontMap = new Map<string, Font>();
 
@@ -40,7 +41,7 @@ export class TextMeasurementService {
     const font = fontMap.get(fontFamily)!;
     const run = font.layout(text);
 
-    return (run.bbox.height / font.unitsPerEm) * fontSize;
+    return (run.bbox.height / font.unitsPerEm) * Unit.toPt(fontSize);
   }
 
   public static getFontHeight(fontCss: string) {
@@ -64,7 +65,11 @@ export class TextMeasurementService {
 
       // console.log('[LOG] fontCss.match(fontWeightRegex): ', fontCss.match(fontWeightRegex));
 
-      return (font.bbox.height / font.unitsPerEm) * fontSize;
+      // console.log('[LOG] font.bbox.height: ', font.bbox.height);
+      // console.log('[LOG] font.unitsPerEm: ', font.unitsPerEm);
+      // console.log('[LOG] font.fontSize: ', fontSize);
+
+      return (font.bbox.height / font.unitsPerEm) * Unit.toPt(fontSize);
     } catch (e) {
       console.error(`[ERR] getFontHeight: ${fontCss}`, e);
       throw e;
@@ -81,7 +86,7 @@ export class TextMeasurementService {
     //TODO italic
     const font = fontMap.get(fontFamily)!;
 
-    return (font.descent / font.unitsPerEm) * fontSize;
+    return (font.descent / font.unitsPerEm) * Unit.toPt(fontSize);
   }
 
   public static getFontBoundingBoxAscent(fontCss: string) {
@@ -94,6 +99,6 @@ export class TextMeasurementService {
     //TODO italic
     const font = fontMap.get(fontFamily)!;
 
-    return (font.ascent / font.unitsPerEm) * fontSize;
+    return (font.ascent / font.unitsPerEm) * Unit.toPt(fontSize);
   }
 }

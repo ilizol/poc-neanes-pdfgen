@@ -416,7 +416,8 @@ export class PdfGenerator {
               note.lyricsWidth / 2 +
               note.lyricsHorizontalOffset / 2,
           ),
-          Unit.toPt(note.y + note.lyricsVerticalOffset),
+          //TODO change this
+          Unit.toPt(note.y + note.lyricsVerticalOffset / 1.25),
           {
             lineBreak: false,
           },
@@ -618,11 +619,16 @@ export class PdfGenerator {
       text += this.getMapping(modeKey.fthoraAboveQuantitativeNeumeRight).text;
     }
 
-    doc.text(text, Unit.toPt(modeKey.x), Unit.toPt(modeKey.y), {
-      lineBreak: false,
-      align: 'center',
-      width: Unit.toPt(modeKey.width),
-      features: martyriaMapping.salt != null ? ['salt'] : undefined,
+    doc.text(
+      text,
+      Unit.toPt(modeKey.x),
+      //TODO change this
+      Unit.toPt(modeKey.y),
+      {
+        lineBreak: false,
+        align: 'center',
+        width: Unit.toPt(modeKey.width),
+        features: martyriaMapping.salt != null ? ['salt'] : undefined,
     });
   }
 
@@ -655,8 +661,7 @@ export class PdfGenerator {
       .text(
         textBox.content,
         Unit.toPt(textBox.x),
-        Unit.toPt(textBox.y) +
-          (1.2 * Unit.toPt(textBox.computedFontSize) + 2) / 4,
+        Unit.toPt(textBox.y),
         { width: Unit.toPt(textBox.width), align: textBox.alignment },
       );
   }
@@ -692,7 +697,7 @@ export class PdfGenerator {
     doc.text(
       dropCap.content,
       Unit.toPt(dropCap.x),
-      Unit.toPt(dropCap.y) + (fontHeight - textHeight) / 2,
+      Unit.toPt(dropCap.y) + (fontHeight - textHeight),
       { lineBreak: false },
     );
   }
