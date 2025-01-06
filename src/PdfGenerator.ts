@@ -662,8 +662,16 @@ export class PdfGenerator {
   }
 
   private renderDropCap(doc: PDFKit.PDFDocument, dropCap: DropCapElement) {
+    let fontFamily = dropCap.computedFontFamily;
+    const fontWeight = dropCap.computedFontWeight;
+    // console.log(`[LOG] renderDropCap() fontFamily: ${dropCap.computedFontFamily}`);
+    // console.log('[LOG] renderDropCap() fontFamily: ', dropCap);
+    if (fontWeight === '700') {
+      fontFamily += ' Bold';
+    }
+    //TODO italic
     doc
-      .font(dropCap.computedFontFamily)
+      .font(fontFamily)
       .fontSize(Unit.toPt(dropCap.computedFontSize))
       .fillColor(dropCap.computedColor);
 

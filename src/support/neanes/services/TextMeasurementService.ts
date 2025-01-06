@@ -4,6 +4,7 @@ const fontMap = new Map<string, Font>();
 
 const fontFamilyRegex = /px "?([\w ]*)"?$/;
 const fontSizeRegex = /([0-9.]*)px/;
+const fontWeightRegex = /\s?([0-9]{3})?\s?[0-9.]*px/;
 
 export class TextMeasurementService {
   public static async registerFontByPath(family: string, file: string) {
@@ -15,8 +16,13 @@ export class TextMeasurementService {
   }
 
   public static getTextWidth(text: string, fontCss: string) {
-    const fontFamily = fontCss.match(fontFamilyRegex)![1];
+    let fontFamily = fontCss.match(fontFamilyRegex)![1];
     const fontSize = Number(fontCss.match(fontSizeRegex)![1]);
+    const fontWeight = fontCss.match(fontWeightRegex)![1];
+    if (fontWeight === '700') {
+      fontFamily += ' Bold';
+    }
+    //TODO italic
     const font = fontMap.get(fontFamily)!;
     const run = font.layout(text);
 
@@ -24,8 +30,13 @@ export class TextMeasurementService {
   }
 
   public static getTextHeight(text: string, fontCss: string) {
-    const fontFamily = fontCss.match(fontFamilyRegex)![1];
+    let fontFamily = fontCss.match(fontFamilyRegex)![1];
     const fontSize = Number(fontCss.match(fontSizeRegex)![1]);
+    const fontWeight = fontCss.match(fontWeightRegex)![1];
+    if (fontWeight === '700') {
+      fontFamily += ' Bold';
+    }
+    //TODO italic
     const font = fontMap.get(fontFamily)!;
     const run = font.layout(text);
 
@@ -34,14 +45,24 @@ export class TextMeasurementService {
 
   public static getFontHeight(fontCss: string) {
     try {
-      const fontFamily = fontCss.match(fontFamilyRegex)![1];
+      let fontFamily = fontCss.match(fontFamilyRegex)![1];
       const fontSize = Number(fontCss.match(fontSizeRegex)![1]);
+      const fontWeight = fontCss.match(fontWeightRegex)![1];
+      if (fontWeight === '700') {
+        fontFamily += ' Bold';
+      }
+      //TODO italic
+
       const font = fontMap.get(fontFamily)!;
 
-      //console.log(`[LOG] fontFamily: ${fontFamily}`);
-      //console.log(`[LOG] fontSize: ${fontSize}`);
+      // console.log(`[LOG] fontFamily: ${fontFamily}`);
+      // console.log(`[LOG] fontSize: ${fontSize}`);
+      // console.log(`[LOG] fontWeight: ${fontWeight}`);
+      // console.log(`[LOG] fontCss: ${fontCss}`);
       // console.log('[LOG] font: ', font);
       // console.log('[LOG] font.bbox: ', font.bbox);
+
+      // console.log('[LOG] fontCss.match(fontWeightRegex): ', fontCss.match(fontWeightRegex));
 
       return (font.bbox.height / font.unitsPerEm) * fontSize;
     } catch (e) {
@@ -51,16 +72,26 @@ export class TextMeasurementService {
   }
 
   public static getFontBoundingBoxDescent(fontCss: string) {
-    const fontFamily = fontCss.match(fontFamilyRegex)![1];
+    let fontFamily = fontCss.match(fontFamilyRegex)![1];
     const fontSize = Number(fontCss.match(fontSizeRegex)![1]);
+    const fontWeight = fontCss.match(fontWeightRegex)![1];
+    if (fontWeight === '700') {
+      fontFamily += ' Bold';
+    }
+    //TODO italic
     const font = fontMap.get(fontFamily)!;
 
     return (font.descent / font.unitsPerEm) * fontSize;
   }
 
   public static getFontBoundingBoxAscent(fontCss: string) {
-    const fontFamily = fontCss.match(fontFamilyRegex)![1];
+    let fontFamily = fontCss.match(fontFamilyRegex)![1];
     const fontSize = Number(fontCss.match(fontSizeRegex)![1]);
+    const fontWeight = fontCss.match(fontWeightRegex)![1];
+    if (fontWeight === '700') {
+      fontFamily += ' Bold';
+    }
+    //TODO italic
     const font = fontMap.get(fontFamily)!;
 
     return (font.ascent / font.unitsPerEm) * fontSize;

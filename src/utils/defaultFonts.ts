@@ -8,7 +8,6 @@ export const defaultFonts: ReadonlyMap<string, string> = new Map<
   ['Source Serif', 'src/support/neanes/assets/SourceSerif4-Regular.otf'],
   ['PFGoudyInitials', 'src/support/neanes/assets/PFGoudyInitials.ttf'],
 
-  ['Alegreya', 'src/support/neanes/assets/Alegreya-Regular.ttf'],
   ['Alegreya Bold', 'src/support/neanes/assets/Alegreya-Bold.ttf'],
   ['Alegreya Medium', 'src/support/neanes/assets/Alegreya-Medium.ttf'],
   ['Almouzios', 'src/support/neanes/assets/Almouzios.otf'],
