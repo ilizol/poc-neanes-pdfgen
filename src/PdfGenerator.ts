@@ -60,6 +60,16 @@ export class PdfGenerator {
       for (const line of page.lines) {
         for (const element of line.elements) {
           if (element.elementType === ElementType.Note) {
+            if (element.line == 4)
+            {
+              console.log(
+                element.id,
+                element.x,
+                element.y,
+                element.lyrics,
+                element._quantitativeNeume,
+              );
+            }
             const note = element as NoteElement;
             this.renderNote(doc, note, pageSetup);
           } else if (element.elementType === ElementType.Martyria) {
@@ -69,6 +79,15 @@ export class PdfGenerator {
             const textBox = element as TextBoxElement;
             this.renderTextBox(doc, textBox);
           } else if (element.elementType === ElementType.DropCap) {
+            if (element.line == 4)
+            {
+              console.log(
+                element.id,
+                element.x,
+                element.y,
+                element.content,
+              );
+            }
             const dropCap = element as DropCapElement;
             this.renderDropCap(doc, dropCap);
           } else if (element.elementType === ElementType.ModeKey) {
@@ -118,7 +137,12 @@ export class PdfGenerator {
 
     doc.font(fontFamily).fontSize(fontSize).fillColor(color);
 
+    //TODO change this
+    // note.y -= 5;
+
     let mainTextOffsetX = Unit.toPt(note.x);
+    //TODO change this
+    let mainTextOffsetY = Unit.toPt(note.y);
 
     if (note.measureBarLeft || note.computedMeasureBarLeft) {
       const measureBarLeft = note.measureBarLeft ?? note.computedMeasureBarLeft;
@@ -127,9 +151,13 @@ export class PdfGenerator {
 
       doc
         .fillColor(pageSetup.measureBarDefaultColor)
-        .text(mapping.text, mainTextOffsetX, Unit.toPt(note.y), {
-          continued: true,
-          lineBreak: false,
+        .text(
+          mapping.text,
+          mainTextOffsetX,
+          mainTextOffsetY,
+          {
+            continued: true,
+            lineBreak: false,
         });
 
       mainTextOffsetX +=
@@ -140,9 +168,13 @@ export class PdfGenerator {
 
     if (note.vareia) {
       const mapping = this.getMapping(VocalExpressionNeume.Vareia);
-      doc.text(mapping.text, mainTextOffsetX, Unit.toPt(note.y), {
-        continued: true,
-        lineBreak: false,
+      doc.text(
+        mapping.text,
+        mainTextOffsetX,
+        mainTextOffsetY,
+        {
+          continued: true,
+          lineBreak: false,
       });
 
       mainTextOffsetX +=
@@ -163,8 +195,20 @@ export class PdfGenerator {
       mainText += this.getMapping(note.vocalExpressionNeume).text;
     }
 
-    doc.text(mainText, mainTextOffsetX, Unit.toPt(note.y), {
-      lineBreak: false,
+    doc.rect(
+      mainTextOffsetX,
+      mainTextOffsetY,
+      doc.widthOfString(mainText),
+      doc.heightOfString(mainText)
+    );
+    doc.stroke();
+
+    doc.text(
+      mainText,
+      mainTextOffsetX,
+      mainTextOffsetY,
+      {
+        lineBreak: false,
     });
 
     if (
@@ -371,7 +415,7 @@ export class PdfGenerator {
               this.getMapping(note.quantitativeNeume).glyphName,
             ) *
               20,
-          Unit.toPt(note.y),
+          mainTextOffsetY,
           { lineBreak: false },
         );
     }
@@ -417,7 +461,10 @@ export class PdfGenerator {
               note.lyricsHorizontalOffset / 2,
           ),
           //TODO change this
-          Unit.toPt(note.y + note.lyricsVerticalOffset / 1.25),
+          Unit.toPt(
+            note.y + 
+              note.lyricsVerticalOffset / 1.25
+          ),
           {
             lineBreak: false,
           },
@@ -436,7 +483,11 @@ export class PdfGenerator {
                 note.lyricsHorizontalOffset / 2 +
                 pageSetup.lyricsMelismaSpacing,
             ),
-            Unit.toPt(note.y + note.lyricsVerticalOffset + offset),
+            Unit.toPt(
+              note.y +
+                note.lyricsVerticalOffset +
+                offset
+            ),
           )
           .lineTo(
             Unit.toPt(
@@ -447,7 +498,11 @@ export class PdfGenerator {
                 pageSetup.lyricsMelismaSpacing +
                 note.melismaWidth,
             ),
-            Unit.toPt(note.y + note.lyricsVerticalOffset + offset),
+            Unit.toPt(
+              note.y +
+                note.lyricsVerticalOffset +
+                offset
+            ),
           )
           .stroke();
       } else if (note.isMelisma && note.isHyphen) {
@@ -465,7 +520,10 @@ export class PdfGenerator {
                   note.lyricsHorizontalOffset +
                   hyphenOffset,
               ),
-              Unit.toPt(note.y + note.lyricsVerticalOffset),
+              Unit.toPt(
+                note.y +
+                  note.lyricsVerticalOffset
+              ),
               {
                 width: note.lyricsWidth,
               },
@@ -494,8 +552,10 @@ export class PdfGenerator {
       .fillColor(color)
       .text(
         this.getMapping(neume).text,
-        Unit.toPt(note.x) + offset.x * fontSize,
-        Unit.toPt(note.y) + offset.y * fontSize,
+        Unit.toPt(note.x) + 
+          offset.x * fontSize,
+        Unit.toPt(note.y) + 
+          offset.y * fontSize,
         { lineBreak: false },
       );
   }
@@ -619,11 +679,21 @@ export class PdfGenerator {
       text += this.getMapping(modeKey.fthoraAboveQuantitativeNeumeRight).text;
     }
 
+
+    doc.rect(
+      Unit.toPt(modeKey.x),
+      //TODO change this
+      Unit.toPt(modeKey.y),
+      doc.widthOfString(text),
+      doc.heightOfString(text)
+    );
+    doc.stroke();
+
     doc.text(
       text,
       Unit.toPt(modeKey.x),
       //TODO change this
-      Unit.toPt(modeKey.y),
+      Unit.toPt(modeKey.y / 0.92),
       {
         lineBreak: false,
         align: 'center',
@@ -647,13 +717,13 @@ export class PdfGenerator {
       fontFamily += ' Bold';
     }
 
-    // doc.rect(
-    //   Unit.toPt(textBox.x),
-    //   Unit.toPt(textBox.y),
-    //   612,
-    //   Unit.toPt(textBox.computedFontSize) * 1.2
-    // );
-    // doc.stroke();
+    doc.rect(
+      Unit.toPt(textBox.x),
+      Unit.toPt(textBox.y),
+      Unit.toPt(textBox.width),
+      doc.heightOfString(textBox.content)
+    );
+    doc.stroke();
     doc
       .font(fontFamily)
       .fontSize(Unit.toPt(textBox.computedFontSize))
@@ -680,19 +750,19 @@ export class PdfGenerator {
       .fontSize(Unit.toPt(dropCap.computedFontSize))
       .fillColor(dropCap.computedColor);
 
-    // doc.rect(
-    //   Unit.toPt(dropCap.x),
-    //   Unit.toPt(dropCap.y),
-    //   doc.widthOfString(dropCap.content),
-    //   doc.heightOfString(dropCap.content)
-    // );
-    // doc.stroke();
-
     const fontHeight = Unit.toPt(
       dropCap.computedFontSize * dropCap.computedLineHeight!,
     );
 
     const textHeight = doc.heightOfString(dropCap.content.trim());
+          
+    doc.rect(
+      Unit.toPt(dropCap.x),
+      Unit.toPt(dropCap.y) + (fontHeight - textHeight),
+      doc.widthOfString(dropCap.content),
+      doc.heightOfString(dropCap.content)
+    );
+    doc.stroke();
 
     doc.text(
       dropCap.content,
