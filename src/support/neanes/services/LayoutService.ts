@@ -48,6 +48,7 @@ import { TATWEEL } from '../utils/constants';
 
 import { MelismaHelperGreek, MelismaSyllables } from './MelismaHelperGreek';
 import { TextMeasurementService } from './TextMeasurementService';
+import { Unit } from '../utils/Unit';
 
 const fontHeightCache = new Map<string, number>();
 const fontBoundingBoxDescentCache = new Map<string, number>();
@@ -107,11 +108,17 @@ export class LayoutService {
     // be used later. This is so we don't unnecessarily
     // calculate them more than once during the loop.
 
-    const neumeHeight = TextMeasurementService.getFontHeight(
+    //TODO change this
+    // const neumeHeight = TextMeasurementService.getFontHeight(
+    //   `${pageSetup.neumeDefaultFontSize}px ${pageSetup.neumeDefaultFontFamily}`,
+    // );
+    const neumeHeight = Unit.toPt(TextMeasurementService.getFontHeight(
       `${pageSetup.neumeDefaultFontSize}px ${pageSetup.neumeDefaultFontFamily}`,
-    );
+    ));
 
-    const lyricsVerticalOffset = neumeHeight + pageSetup.lyricsVerticalOffset;
+    //TODO change this
+    // const lyricsVerticalOffset = neumeHeight + pageSetup.lyricsVerticalOffset;
+    const lyricsVerticalOffset = Unit.toPt(neumeHeight + pageSetup.lyricsVerticalOffset);
 
     const lyricHeight = TextMeasurementService.getFontHeight(
       pageSetup.lyricsFont,
@@ -323,10 +330,18 @@ export class LayoutService {
               ? pageSetup.modeKeyDefaultHeightAdjustment
               : modeKeyElement.heightAdjustment;
 
-          modeKeyElement.height =
-            TextMeasurementService.getFontHeight(
-              `${modeKeyElement.computedFontSize}px ${modeKeyElement.computedFontFamily}`,
-            ) + modeKeyElement.computedHeightAdjustment;
+          // modeKeyElement.computedHeightAdjustment = 0;
+
+          // modeKeyElement.height =
+          //   TextMeasurementService.getFontHeight(
+          //     `${modeKeyElement.computedFontSize}px ${modeKeyElement.computedFontFamily}`,
+          //   ) + modeKeyElement.computedHeightAdjustment;
+
+          //TODO change this
+          // modeKeyElement.height /= 1.3;
+          // modeKeyElement.height = Unit.toPt(modeKeyElement.height);
+          // modeKeyElement.height = 46;
+          // modeKeyElement.height = 45;
 
           marginTop = modeKeyElement.marginTop;
 
@@ -1098,6 +1113,11 @@ export class LayoutService {
 
       // Height should be at least the font height
       textBoxElement.height = Math.max(height, fontHeight);
+
+      //TODO change this
+      // textBoxElement.height *= 1.42;
+      // textBoxElement.height = Unit.toPt(textBoxElement.height);
+      // textBoxElement.height = 30;
     }
 
     return elementWidthPx;
