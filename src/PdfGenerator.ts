@@ -414,7 +414,7 @@ export class PdfGenerator {
               fontFamily,
               this.getMapping(note.quantitativeNeume).glyphName,
             ) *
-              20,
+            fontSize,
           mainTextOffsetY,
           { lineBreak: false },
         );
@@ -684,7 +684,7 @@ export class PdfGenerator {
       Unit.toPt(modeKey.x),
       //TODO change this
       Unit.toPt(modeKey.y),
-      doc.widthOfString(text),
+      Unit.toPt(modeKey.width),
       doc.heightOfString(text)
     );
     doc.stroke();
@@ -732,7 +732,11 @@ export class PdfGenerator {
         textBox.content,
         Unit.toPt(textBox.x),
         Unit.toPt(textBox.y),
-        { width: Unit.toPt(textBox.width), align: textBox.alignment },
+        {
+          lineBreak: false,
+          width: Unit.toPt(textBox.width),
+          align: textBox.alignment
+        },
       );
   }
 

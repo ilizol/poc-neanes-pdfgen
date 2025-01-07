@@ -41,7 +41,7 @@ export class TextMeasurementService {
     const font = fontMap.get(fontFamily)!;
     const run = font.layout(text);
 
-    return (run.bbox.height / font.unitsPerEm) * Unit.toPt(fontSize);
+    return (run.bbox.height / font.unitsPerEm) * fontSize;
   }
 
   public static getFontHeight(fontCss: string) {
