@@ -661,7 +661,10 @@ export class PdfGenerator {
     const fontSize = Unit.toPt(modeKey.computedFontSize);
     const color = modeKey.computedColor;
 
-    doc.font(fontFamily).fontSize(fontSize).fillColor(color);
+    doc
+    .font(fontFamily)
+    .fontSize(fontSize)
+    .fillColor(color);
 
     let text = this.getMapping(ModeSign.Ekhos).text;
 
@@ -714,7 +717,9 @@ export class PdfGenerator {
       Unit.toPt(modeKey.x),
       Unit.toPt(modeKey.y),
       Unit.toPt(modeKey.width),
-      doc.heightOfString(text)
+      Unit.toPt(modeKey.height),
+      // doc.widthOfString(text),
+      // doc.heightOfString(text)
     );
     doc.stroke();
 
@@ -726,6 +731,7 @@ export class PdfGenerator {
         lineBreak: false,
         align: 'center',
         width: Unit.toPt(modeKey.width),
+        height: Unit.toPt(modeKey.height),
         features: martyriaMapping.salt != null ? ['salt'] : undefined,
     });
   }
