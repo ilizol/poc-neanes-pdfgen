@@ -66,8 +66,11 @@ export class PdfGenerator {
                 element.id,
                 element.x,
                 element.y,
+                element.width,
+                // element.height,
                 element.lyrics,
                 element._quantitativeNeume,
+                // element
               );
             }
             const note = element as NoteElement;
@@ -76,6 +79,18 @@ export class PdfGenerator {
             const martyria = element as MartyriaElement;
             this.renderMartyria(doc, martyria, pageSetup);
           } else if (element.elementType === ElementType.TextBox) {
+            if (element.line <= 2)
+            {
+              console.log(
+                element.id,
+                element.x,
+                element.y,
+                element.width,
+                element.height,
+                element.content,
+                // element
+              );
+            }
             const textBox = element as TextBoxElement;
             this.renderTextBox(doc, textBox);
           } else if (element.elementType === ElementType.DropCap) {
@@ -85,12 +100,27 @@ export class PdfGenerator {
                 element.id,
                 element.x,
                 element.y,
+                element.width,
+                // element.height,
                 element.content,
+                // element
               );
             }
             const dropCap = element as DropCapElement;
             this.renderDropCap(doc, dropCap);
           } else if (element.elementType === ElementType.ModeKey) {
+            if (element.line == 3)
+            {
+              console.log(
+                element.id,
+                element.x,
+                element.y,
+                element.width,
+                element.height,
+                // element.content,
+                // element
+              );
+            }
             const modeKey = element as ModeKeyElement;
             this.renderModeKey(doc, modeKey, pageSetup);
           }
@@ -682,7 +712,6 @@ export class PdfGenerator {
 
     doc.rect(
       Unit.toPt(modeKey.x),
-      //TODO change this
       Unit.toPt(modeKey.y),
       Unit.toPt(modeKey.width),
       doc.heightOfString(text)
@@ -692,8 +721,7 @@ export class PdfGenerator {
     doc.text(
       text,
       Unit.toPt(modeKey.x),
-      //TODO change this
-      Unit.toPt(modeKey.y / 0.92),
+      Unit.toPt(modeKey.y),
       {
         lineBreak: false,
         align: 'center',
@@ -708,6 +736,8 @@ export class PdfGenerator {
     }
 
     let fontFamily = textBox.computedFontFamily;
+    // console.log(`[LOG] renderTextBox() fontFamily: ${textBox.computedFontFamily}`);
+    // console.log('[LOG] renderTextBox() textBox: ', textBox);
 
     if (textBox.italic) {
       fontFamily += ' Italic';
@@ -717,17 +747,22 @@ export class PdfGenerator {
       fontFamily += ' Bold';
     }
 
+    doc
+    .font(fontFamily)
+    .fontSize(Unit.toPt(textBox.computedFontSize))
+    .fillColor(textBox.computedColor);
+
     doc.rect(
       Unit.toPt(textBox.x),
       Unit.toPt(textBox.y),
       Unit.toPt(textBox.width),
-      doc.heightOfString(textBox.content)
+      Unit.toPt(textBox.height),
+      // doc.widthOfString(textBox.content),
+      // doc.heightOfString(textBox.content)
     );
     doc.stroke();
+
     doc
-      .font(fontFamily)
-      .fontSize(Unit.toPt(textBox.computedFontSize))
-      .fillColor(textBox.computedColor)
       .text(
         textBox.content,
         Unit.toPt(textBox.x),
@@ -735,8 +770,9 @@ export class PdfGenerator {
         {
           lineBreak: false,
           width: Unit.toPt(textBox.width),
+          height: Unit.toPt(textBox.height),
           align: textBox.alignment
-        },
+        }
       );
   }
 
@@ -744,7 +780,7 @@ export class PdfGenerator {
     let fontFamily = dropCap.computedFontFamily;
     const fontWeight = dropCap.computedFontWeight;
     // console.log(`[LOG] renderDropCap() fontFamily: ${dropCap.computedFontFamily}`);
-    // console.log('[LOG] renderDropCap() fontFamily: ', dropCap);
+    // console.log('[LOG] renderDropCap() dropCap: ', dropCap);
     if (fontWeight === '700') {
       fontFamily += ' Bold';
     }
