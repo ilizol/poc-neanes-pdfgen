@@ -193,7 +193,7 @@ export class PdfGenerator {
         });
 
       mainTextOffsetX +=
-        fontService.getAdvanceWidth(fontFamily, mapping.glyphName) * fontSize;
+        fontService.getAdvanceWidth(fontFamily, mapping.glyphName) * pageSetup.neumeDefaultFontSize;
     }
 
     doc.fillColor(color);
@@ -210,7 +210,7 @@ export class PdfGenerator {
       });
 
       mainTextOffsetX +=
-        fontService.getAdvanceWidth(fontFamily, mapping.glyphName) * fontSize;
+        fontService.getAdvanceWidth(fontFamily, mapping.glyphName) * pageSetup.neumeDefaultFontSize;
     }
 
     let mainText = this.getMapping(note.quantitativeNeume).text;
@@ -446,7 +446,7 @@ export class PdfGenerator {
               fontFamily,
               this.getMapping(note.quantitativeNeume).glyphName,
             ) *
-            fontSize),
+            pageSetup.neumeDefaultFontSize),
           Unit.toPt(mainTextOffsetY),
           { lineBreak: false },
         );
