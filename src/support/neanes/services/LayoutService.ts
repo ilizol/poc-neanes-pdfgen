@@ -330,12 +330,13 @@ export class LayoutService {
               ? pageSetup.modeKeyDefaultHeightAdjustment
               : modeKeyElement.heightAdjustment;
 
-          // modeKeyElement.computedHeightAdjustment = 0;
+          //TODO change this
+          modeKeyElement.computedHeightAdjustment = -30;
 
-          // modeKeyElement.height =
-          //   TextMeasurementService.getFontHeight(
-          //     `${modeKeyElement.computedFontSize}px ${modeKeyElement.computedFontFamily}`,
-          //   ) + modeKeyElement.computedHeightAdjustment;
+          modeKeyElement.height =
+            TextMeasurementService.getFontHeight(
+              `${modeKeyElement.computedFontSize}px ${modeKeyElement.computedFontFamily}`,
+            ) + modeKeyElement.computedHeightAdjustment;
 
           //TODO change this
           // modeKeyElement.height /= 1.3;
@@ -687,7 +688,7 @@ export class LayoutService {
       }
 
       element.x = pageSetup.leftMargin + currentLineWidthPx;
-      element.y =
+      element.y = 
         pageSetup.topMargin +
         extraHeaderHeightPx +
         marginTop +
