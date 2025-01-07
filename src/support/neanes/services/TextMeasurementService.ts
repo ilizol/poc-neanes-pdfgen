@@ -71,10 +71,8 @@ export class TextMeasurementService {
       // console.log('[LOG] font.unitsPerEm: ', font.unitsPerEm);
       // console.log('[LOG] font.fontSize: ', fontSize);
 
-      return (font.bbox.height / font.unitsPerEm) * fontSize;
-      // return (font.bbox.height / font.unitsPerEm) * Unit.toPt(fontSize);
-      // return ((font.bbox.height - font.descent) / font.unitsPerEm) * Unit.toPt(fontSize);
-      // return ((font.bbox.height - font.ascent) / font.unitsPerEm) * Unit.toPt(fontSize);
+      // return (font.bbox.height / font.unitsPerEm) * fontSize;
+      return ((font.ascent - font.descent) / font.unitsPerEm) * fontSize;
     } catch (e) {
       console.error(`[ERR] getFontHeight: ${fontCss}`, e);
       throw e;
@@ -92,7 +90,6 @@ export class TextMeasurementService {
     const font = fontMap.get(fontFamily)!;
 
     return (font.descent / font.unitsPerEm) * fontSize;
-    // return (font.descent / font.unitsPerEm) * Unit.toPt(fontSize);
   }
 
   public static getFontBoundingBoxAscent(fontCss: string) {
@@ -106,6 +103,5 @@ export class TextMeasurementService {
     const font = fontMap.get(fontFamily)!;
 
     return (font.ascent / font.unitsPerEm) * fontSize;
-    // return (font.ascent / font.unitsPerEm) * Unit.toPt(fontSize);
   }
 }

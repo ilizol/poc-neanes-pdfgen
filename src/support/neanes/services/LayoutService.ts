@@ -108,17 +108,11 @@ export class LayoutService {
     // be used later. This is so we don't unnecessarily
     // calculate them more than once during the loop.
 
-    //TODO change this
-    // const neumeHeight = TextMeasurementService.getFontHeight(
-    //   `${pageSetup.neumeDefaultFontSize}px ${pageSetup.neumeDefaultFontFamily}`,
-    // );
-    const neumeHeight = Unit.toPt(TextMeasurementService.getFontHeight(
+    const neumeHeight = TextMeasurementService.getFontHeight(
       `${pageSetup.neumeDefaultFontSize}px ${pageSetup.neumeDefaultFontFamily}`,
-    ));
+    );
 
-    //TODO change this
-    // const lyricsVerticalOffset = neumeHeight + pageSetup.lyricsVerticalOffset;
-    const lyricsVerticalOffset = Unit.toPt(neumeHeight + pageSetup.lyricsVerticalOffset);
+    const lyricsVerticalOffset = neumeHeight + pageSetup.lyricsVerticalOffset;
 
     const lyricHeight = TextMeasurementService.getFontHeight(
       pageSetup.lyricsFont,
@@ -331,7 +325,12 @@ export class LayoutService {
               : modeKeyElement.heightAdjustment;
 
           //TODO change this
-          modeKeyElement.computedHeightAdjustment = -30;
+          // modeKeyElement.computedHeightAdjustment = -40;
+
+          // console.log(`${modeKeyElement.computedFontSize}px ${modeKeyElement.computedFontFamily}`);
+          // console.log(TextMeasurementService.getFontHeight(
+          //   `${modeKeyElement.computedFontSize}px ${modeKeyElement.computedFontFamily}`,
+          // ));
 
           modeKeyElement.height =
             TextMeasurementService.getFontHeight(
@@ -1361,7 +1360,9 @@ export class LayoutService {
 
     // Add in padding to give some extra space between
     // the martyria and the next neume
-    const padding = pageSetup.neumeDefaultFontSize * 0.148;
+    //TODO change this
+    // const padding = pageSetup.neumeDefaultFontSize * 0.148;
+    const padding = 0;
 
     martyriaElement.neumeWidth = this.getNeumeWidthFromCache(
       neumeWidthCache,
