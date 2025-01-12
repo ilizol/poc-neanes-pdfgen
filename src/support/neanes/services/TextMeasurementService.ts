@@ -1,5 +1,4 @@
 import { create, Font, open } from 'fontkit';
-import { Unit } from '../utils/Unit';
 
 const fontMap = new Map<string, Font>();
 

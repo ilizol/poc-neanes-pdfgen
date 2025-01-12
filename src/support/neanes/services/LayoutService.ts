@@ -48,7 +48,6 @@ import { TATWEEL } from '../utils/constants';
 
 import { MelismaHelperGreek, MelismaSyllables } from './MelismaHelperGreek';
 import { TextMeasurementService } from './TextMeasurementService';
-import { Unit } from '../utils/Unit';
 
 const fontHeightCache = new Map<string, number>();
 const fontBoundingBoxDescentCache = new Map<string, number>();
@@ -324,24 +323,10 @@ export class LayoutService {
               ? pageSetup.modeKeyDefaultHeightAdjustment
               : modeKeyElement.heightAdjustment;
 
-          //TODO change this
-          // modeKeyElement.computedHeightAdjustment = -40;
-
-          // console.log(`${modeKeyElement.computedFontSize}px ${modeKeyElement.computedFontFamily}`);
-          // console.log(TextMeasurementService.getFontHeight(
-          //   `${modeKeyElement.computedFontSize}px ${modeKeyElement.computedFontFamily}`,
-          // ));
-
           modeKeyElement.height =
             TextMeasurementService.getFontHeight(
               `${modeKeyElement.computedFontSize}px ${modeKeyElement.computedFontFamily}`,
             ) + modeKeyElement.computedHeightAdjustment;
-
-          //TODO change this
-          // modeKeyElement.height /= 1.3;
-          // modeKeyElement.height = Unit.toPt(modeKeyElement.height);
-          // modeKeyElement.height = 46;
-          // modeKeyElement.height = 45;
 
           marginTop = modeKeyElement.marginTop;
 
@@ -1113,11 +1098,6 @@ export class LayoutService {
 
       // Height should be at least the font height
       textBoxElement.height = Math.max(height, fontHeight);
-
-      //TODO change this
-      // textBoxElement.height *= 1.42;
-      // textBoxElement.height = Unit.toPt(textBoxElement.height);
-      // textBoxElement.height = 30;
     }
 
     return elementWidthPx;
@@ -1361,8 +1341,8 @@ export class LayoutService {
     // Add in padding to give some extra space between
     // the martyria and the next neume
     //TODO change this
-    // const padding = pageSetup.neumeDefaultFontSize * 0.148;
-    const padding = 0;
+    const padding = pageSetup.neumeDefaultFontSize * 0.148;
+    // const padding = 0;
 
     martyriaElement.neumeWidth = this.getNeumeWidthFromCache(
       neumeWidthCache,
