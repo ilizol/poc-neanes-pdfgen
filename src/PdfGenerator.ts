@@ -734,7 +734,7 @@ export class PdfGenerator {
       Unit.toPt(modeKey.y),
       {
         lineBreak: false,
-        align: 'center',
+        align: modeKey.alignment,
         width: Unit.toPt(modeKey.width),
         height: Unit.toPt(modeKey.height),
         features: martyriaMapping.salt != null ? ['salt'] : undefined,
