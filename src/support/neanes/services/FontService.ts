@@ -1,7 +1,7 @@
-import metadataAlmouzios from '../assets/Almouzios.metadata.json';
+import metadataAlmouzios from '../assets/almouzios.metadata.json';
 import metadata from '../assets/neanes.metadata.json';
 import metadataRtl from '../assets/neanesrtl.metadata.json';
-import metadataStathis from '../assets/NeanesStathisSeries.metadata.json';
+import metadataStathis from '../assets/neanesstathisseries.metadata.json';
 import { SbmuflGlyphName } from './NeumeMappingService';
 
 const metadataMap = new Map();
